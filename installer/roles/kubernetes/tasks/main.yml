@@ -87,6 +87,22 @@
 
 - name: Deploy PostgreSQL (Kubernetes)
   block:
+    - block:
+        - name: Render pg volume templates
+          set_fact:
+            postgres_volume: "{{ lookup('template', 'postgres_volume.yml.j2') }}"
+          no_log: true
+        # - debug: var=postgres_volume
+
+        - name: Apply pg volume Deployment
+          shell: |
+            echo {{ item | quote }} | {{ kubectl_or_oc }} apply -f -
+          with_items:
+            - "{{ postgres_volume }}"
+          no_log: true
+      when: pg_data_local is defined
+
+
     - name: Create Temporary Values File (Kubernetes)
       tempfile:
         state: file
@@ -98,11 +114,12 @@
         src: postgresql-values.yml.j2
         dest: "{{ values_file.path }}"
       no_log: true
+    - debug: var=values_file
 
     - name: Deploy and Activate Postgres (Kubernetes)
       shell: |
-        helm repo add stable https://charts.helm.sh/stable
-        helm repo update
+        #helm repo add stable https://charts.helm.sh/stable
+        #helm repo update
         helm upgrade {{ postgresql_service_name }} \
           --install \
           --namespace {{ kubernetes_namespace }} \
@@ -110,7 +127,7 @@
           --values {{ values_file.path }} \
           stable/postgresql
       register: kubernetes_pg_activate
-      no_log: true
+      # no_log: true
 
     - name: Remove tempfile
       file:

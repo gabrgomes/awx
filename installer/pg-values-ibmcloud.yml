@@ -1,0 +1,15 @@
+postgresqlUsername: awx
+postgresqlPassword: awxpass
+postgresqlDatabase: awx
+persistence:
+  size: 5Gi
+  subPath: data
+image:
+  registry: docker.io/bitnami
+  repository: postgresql
+  tag: '12.5.0'
+volumePermissions:
+  image:
+    # The default bitnami image from the chart doesn't work on ARM
+    repository: alpine
+    tag: '3'

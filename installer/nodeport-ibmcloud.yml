@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: awx-web-svc-ext
+  namespace: awx
+  labels:
+    name: awx-web-svc-ext
+spec:
+  selector:
+    name: awx-web-deploy
+  type: NodePort
+  ports:
+    - port: 8052
+     # nodePort: <31514>

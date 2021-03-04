@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+  labels:
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: {{ pg_volume_capacity|default('5') }}Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "{{ pg_data_local }}"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  storageClassName: hostpath
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ pg_volume_capacity|default('5') }}Gi

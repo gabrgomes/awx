@@ -175,7 +175,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8052
-{% if ca_trust_dir is defined %}
+{% if ca_trust_dir is defined or ca_trust_file is defined %}
           env:
             - name: REQUESTS_CA_BUNDLE
               value: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
@@ -196,6 +196,11 @@ spec:
 {% if ca_trust_dir is defined %}
             - name: {{ kubernetes_deployment_name }}-ca-trust-dir
               mountPath: "{{ ca_trust_dir }}"
+              readOnly: true
+{% endif %}
+{% if ca_trust_file is defined %}
+            - name: {{ kubernetes_deployment_name }}-ca-trust-file
+              mountPath: "{{ ca_trust_file }}"
               readOnly: true
 {% endif %}
 {% if project_data_dir is defined %}
@@ -270,6 +275,12 @@ spec:
               subPath: {{ postgres_root_ca_filename }}
               readOnly: true
 {% endif %}
+{% if acbb is defined %}
+            - name: {{ kubernetes_deployment_name }}-acbb
+              mountPath: "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+              subPath: tls-ca-bundle.pem
+              readOnly: true
+{% endif %}
             - name: supervisor-socket
               mountPath: "/var/run/supervisor"
             - name: rsyslog-socket
@@ -279,6 +290,11 @@ spec:
 {% if ca_trust_dir is defined %}
             - name: {{ kubernetes_deployment_name }}-ca-trust-dir
               mountPath: "{{ ca_trust_dir }}"
+              readOnly: true
+{% endif %}
+{% if ca_trust_file is defined %}
+            - name: {{ kubernetes_deployment_name }}-ca-trust-file
+              mountPath: "{{ ca_trust_file }}"
               readOnly: true
 {% endif %}
 {% if custom_venvs is defined %}
@@ -324,7 +340,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.podIP
-{% if ca_trust_dir is defined %}
+{% if ca_trust_dir is defined or ca_trust_file is defined %}
             - name: REQUESTS_CA_BUNDLE
               value: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
 {% endif %}
@@ -408,6 +424,12 @@ spec:
             path: "{{ ca_trust_dir }}"
             type: Directory
 {% endif %}
+{% if ca_trust_file is defined %}
+        - name: {{ kubernetes_deployment_name }}-ca-trust-file
+          hostPath:
+            path: "{{ ca_trust_local }}"
+            type: File
+{% endif %}
 {% if project_data_dir is defined %}
         - name: {{ kubernetes_deployment_name }}-project-data-dir
           hostPath:
@@ -424,7 +446,14 @@ spec:
             items:
               - key: {{ kubernetes_deployment_name }}_settings
                 path: settings.py
-
+{% if acbb is defined %}
+        - name: {{ kubernetes_deployment_name }}-acbb
+          configMap:
+            name: {{ kubernetes_deployment_name }}-config
+            items:
+            - key: {{ kubernetes_deployment_name }}_acbb
+              path: tls-ca-bundle.pem
+{% endif %}
         - name: {{ kubernetes_deployment_name }}-nginx-config
           configMap:
             name: {{ kubernetes_deployment_name }}-config

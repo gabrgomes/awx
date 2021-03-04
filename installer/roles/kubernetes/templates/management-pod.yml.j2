@@ -75,6 +75,13 @@ spec:
         type: Directory
 
 {% endif %}
+{% if ca_trust_file is defined %}
+    - name: {{ kubernetes_deployment_name }}-ca-trust-file
+      hostPath:
+        path: "{{ ca_trust_file }}"
+        type: File
+
+{% endif %}
     - name: {{ kubernetes_deployment_name }}-application-config
       configMap:
         name: {{ kubernetes_deployment_name }}-config

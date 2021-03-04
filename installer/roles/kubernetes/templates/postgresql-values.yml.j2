@@ -2,7 +2,9 @@ postgresqlUsername: {{ pg_username }}
 postgresqlPassword: {{ pg_password }}
 postgresqlDatabase: {{ pg_database }}
 persistence:
+  enabled: {{ pg_persistence_enabled|default(true)}}
   size: {{ pg_volume_capacity|default('5') }}Gi
+  subPath: data
 {% if pg_persistence_storageClass is defined %}
   storageClass: {{ pg_persistence_storageClass }}
 {% endif %}
