@@ -1,0 +1,19 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://kubernetes.docker.internal:6443
+  name: https://kubernetes.docker.internal:6443
+contexts:
+- context:
+    cluster: https://kubernetes.docker.internal:6443
+    namespace: default
+    user: https://kubernetes.docker.internal:6443
+  name: https://kubernetes.docker.internal:6443
+current-context: https://kubernetes.docker.internal:6443
+kind: Config
+preferences: {}
+users:
+- name: https://kubernetes.docker.internal:6443
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6InNzdTEyUEhncmRRODZHSnQ2SlE5bUdWTFVDeHNXWFpsSGRId2JlbFA5V28ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJhd3giLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiZGVmYXVsdC10b2tlbi1tcTZsYiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiMDAzYTlmMTktNzdhMC00YjFlLTljMmMtNDkxNjNkMGJkMDdjIiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmF3eDpkZWZhdWx0In0.nD4AfiWECHNqN5tA2j3p_1w3_dPPwhans6e9pK9ZK1_0asXq_HjH1xW81q1K20LXuyD10D2QAVv--1_1MEF2EGmEP6hamKf8NLJWe1ByQ0ZWCiTBfen7Ht272IJ449yh1maeyTVCm-uhVnWnY6K8uSHGzmwgMOjMwP7KWg4nP4AGBJ8b9E6bbvlC43nSyJtuLTP2cFeId8CqKxPNCcyhlmsNTyDCPaPsV-6XanjIx5iq3tq4Lomb97baVBtCPtdLperj8Jj_5mzdPEDy-5xiO6Knhq2veqfdm66oVHPRHE76xyeka6hLzksD6A28JXsAR08yCMI6iMGmbHJy6IrjWA

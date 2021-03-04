@@ -1,0 +1,1 @@
+{"all": {"hosts": {"awx-job-23": {"ansible_connection": "kubectl", "ansible_kubectl_config": "/tmp/awx_23_81fnxuhr/.kubeconfiguxhsccm5"}}}}
